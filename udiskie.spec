@@ -8,8 +8,8 @@ Group:		Applications
 Source0:	http://bitbucket.org/byronclark/udiskie/downloads/%{name}-%{version}.tar.gz
 # Source0-md5:	af594ae204565e5a29b05f91319b51d6
 URL:		http://bitbucket.org/byronclark/udiskie
-BuildRequires:	python-devel
 BuildRequires:	rpm-pythonprov >= 4.1-13
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
