@@ -10,6 +10,7 @@ Source0:	http://bitbucket.org/byronclark/udiskie/downloads/%{name}-%{version}.ta
 URL:		http://bitbucket.org/byronclark/udiskie
 BuildRequires:	rpm-pythonprov >= 4.1-13
 BuildArch:	noarch
+Requires:	udisks
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
