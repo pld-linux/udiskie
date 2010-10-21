@@ -1,16 +1,17 @@
 Summary:	An automatic disk mounting service using udisks
 Summary(pl.UTF-8):	Usługa do automatycznego montowania dysków przy użyciu udisks
 Name:		udiskie
-Version:	0.3.3
+Version:	0.3.4
 Release:	1
 License:	MIT
 Group:		Applications
 Source0:	http://bitbucket.org/byronclark/udiskie/downloads/%{name}-%{version}.tar.gz
-# Source0-md5:	af594ae204565e5a29b05f91319b51d6
+# Source0-md5:	ce577e6c377a4790f40c6e48ec4bf5b7
 URL:		http://bitbucket.org/byronclark/udiskie
+BuildRequires:	asciidoc
 BuildRequires:	rpm-pythonprov >= 4.1-13
-BuildArch:	noarch
 Requires:	udisks
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -22,6 +23,10 @@ Usługa do automatycznego montowania dysków przy użyciu udisks.
 %prep
 %setup -q
 
+%build
+cd doc
+%{__make}
+
 %install
 rm -rf $RPM_BUILD_ROOT
 python ./setup.py install \
@@ -31,8 +36,10 @@ python ./setup.py install \
 find $RPM_BUILD_ROOT%{py_sitescriptdir} -type f -name "*.py" | xargs rm
 
 install -d $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT%{_mandir}/man8
 install bin/udiskie $RPM_BUILD_ROOT%{_bindir}/udiskie
 install bin/udiskie-umount $RPM_BUILD_ROOT%{_bindir}/udiskie-umount
+install doc/%{name}.8 $RPM_BUILD_ROOT%{_mandir}/man8
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -42,3 +49,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{py_sitescriptdir}/%{name}
 %{py_sitescriptdir}/*.egg-info
+%{_mandir}/man8/%{name}*
