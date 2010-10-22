@@ -10,6 +10,7 @@ Source0:	http://bitbucket.org/byronclark/udiskie/downloads/%{name}-%{version}.ta
 URL:		http://bitbucket.org/byronclark/udiskie
 BuildRequires:	asciidoc
 BuildRequires:	rpm-pythonprov >= 4.1-13
+BuildRequires:	rpmbuild(macros) >= 1.219
 Requires:	udisks
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -24,29 +25,33 @@ Usługa do automatycznego montowania dysków przy użyciu udisks.
 %setup -q
 
 %build
-cd doc
-%{__make}
+%{__python} setup.py build
+
+%{__make} -C doc
 
 %install
 rm -rf $RPM_BUILD_ROOT
-python ./setup.py install \
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man8}
+%{__python} setup.py install \
+	--skip-build \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
 
-find $RPM_BUILD_ROOT%{py_sitescriptdir} -type f -name "*.py" | xargs rm
+%py_postclean
 
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_mandir}/man8
-install bin/udiskie $RPM_BUILD_ROOT%{_bindir}/udiskie
-install bin/udiskie-umount $RPM_BUILD_ROOT%{_bindir}/udiskie-umount
-install doc/%{name}.8 $RPM_BUILD_ROOT%{_mandir}/man8
+install -p bin/udiskie $RPM_BUILD_ROOT%{_bindir}/udiskie
+install -p bin/udiskie-umount $RPM_BUILD_ROOT%{_bindir}/udiskie-umount
+cp -a doc/%{name}.8 $RPM_BUILD_ROOT%{_mandir}/man8
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/udiskie
+%attr(755,root,root) %{_bindir}/udiskie-umount
 %{py_sitescriptdir}/%{name}
-%{py_sitescriptdir}/*.egg-info
-%{_mandir}/man8/%{name}*
+%if "%{py_ver}" > "2.4"
+%{py_sitescriptdir}/udiskie-*.egg-info
+%endif
+%{_mandir}/man8/udiskie.8*
