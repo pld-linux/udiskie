@@ -1,12 +1,12 @@
 Summary:	An automatic disk mounting service using udisks
 Summary(pl.UTF-8):	Usługa do automatycznego montowania dysków przy użyciu udisks
 Name:		udiskie
-Version:	0.3.7
-Release:	4
+Version:	0.4.1
+Release:	1
 License:	MIT
 Group:		Applications
 Source0:	http://bitbucket.org/byronclark/udiskie/downloads/%{name}-%{version}.tar.gz
-# Source0-md5:	9f2320d5ee4b8ed8903aec55f12c4d40
+# Source0-md5:	62e5d5faafa9dbf11423d3c77a87b9a0
 URL:		http://bitbucket.org/byronclark/udiskie
 BuildRequires:	asciidoc
 BuildRequires:	rpm-pythonprov >= 4.1-13
